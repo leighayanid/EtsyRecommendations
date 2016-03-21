@@ -2,11 +2,18 @@ package com.etsy.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView mRecyclerview;
+    private View mProgressbar;
+    private TextView mErrorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        mProgressbar = findViewById(R.id.progressbar);
+        mErrorTextView = (TextView) findViewById(R.id.error_view);
+
+        showLoading();
     }
 
     @Override
@@ -37,5 +49,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showLoading() {
+        mRecyclerview.setVisibility(View.GONE);
+        mProgressbar.setVisibility(View.VISIBLE);
+        mErrorTextView.setVisibility(View.GONE);
+    }
+
+    public void showList() {
+        mRecyclerview.setVisibility(View.VISIBLE);
+        mProgressbar.setVisibility(View.GONE);
+        mErrorTextView.setVisibility(View.GONE);
+    }
+
+    public void showError() {
+        mRecyclerview.setVisibility(View.GONE);
+        mProgressbar.setVisibility(View.GONE);
+        mErrorTextView.setVisibility(View.VISIBLE);
     }
 }
