@@ -1,6 +1,5 @@
 package com.etsy.sample.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.etsy.sample.MainActivity;
 import com.etsy.sample.R;
 import com.etsy.sample.model.ActiveListings;
 import com.etsy.sample.model.Listing;
@@ -22,12 +22,14 @@ import retrofit.client.Response;
  */
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingHolder> implements Callback<ActiveListings> {
 
+    private MainActivity activity;
     private LayoutInflater inflater; //inflates layout listing xml to recyclerview
     private ActiveListings activeListings;
 
     //constructor. need context for the layout inflater
-    public ListingAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
+    public ListingAdapter(MainActivity activity) {
+        this.activity = activity;
+        inflater = LayoutInflater.from(activity);
 
     }
 
@@ -61,11 +63,16 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ListingH
     public void success(ActiveListings activeListings, Response response) {
         this.activeListings = activeListings;
         notifyDataSetChanged();
+        this.activity.showList();
     }
 
     @Override
     public void failure(RetrofitError error) {
+        this.activity.showError();
+    }
 
+    public ActiveListings getActiveListings() {
+        return activeListings;
     }
 
     public class ListingHolder extends RecyclerView.ViewHolder {
